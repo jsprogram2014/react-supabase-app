@@ -29,10 +29,21 @@ const Dashboard = () => {
         "postgres_changes",
         { event: "*", schema: "public", table: "sales_deals" },
         (payload) => {
+          console.log(payload);
           fetchMetric().then((data) => setDatas(data));
+          const { new: newRecord, eventType } = payload;
+          const { name, value } = newRecord;
+          if (eventType === "INSERT") {
+            console.log("insert happened");
+          }
         },
       )
       .subscribe();
+
+    //clean up the side effect since it can be still there even when the component is unmounted
+    return () => {
+      supabaseClient.removeChannel("deal-changes");
+    };
   }, []);
 
   const chartData = React.useMemo(() => [
