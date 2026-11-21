@@ -15,11 +15,22 @@ const fetchMetric = async () => {
 };
 
 const DbCalling = () => {
+  const [datas, setDatas] = React.useState();
+
   React.useEffect(() => {
-    console.log(fetchMetric().then((data) => console.log(data)));
+    fetchMetric().then((data) => setDatas(data));
   }, []);
 
-  return <div>DbCalling</div>;
+  return (
+    <div>
+      <h1>DbCalling</h1>
+      {datas && (
+        <p>
+          Name : {datas[0].name}, Value : {datas[0].value}
+        </p>
+      )}
+    </div>
+  );
 };
 
 export default DbCalling;
