@@ -1,6 +1,7 @@
 import React from "react";
 import supabaseClient from "../supabase-client";
 import { Chart } from "react-charts";
+import Form from "./Form";
 
 const fetchMetric = async () => {
   try {
@@ -93,18 +94,23 @@ const Dashboard = () => {
   }
 
   return (
-    <div style={{ height: "350px" }}>
+    <div style={{ display: "flex", flexDirection: "column" }}>
       <h1>Total Sales for this Quarter</h1>
-      <Chart
-        options={{
-          data: chartData,
-          primaryAxis,
-          secondaryAxes,
-          type: "bar",
-          defaultColors: ["#54f567"],
-          tooltip: { show: false },
-        }}
-      />
+
+      <div style={{ height: "350px", marginBottom: "40px" }}>
+        <Chart
+          options={{
+            data: chartData,
+            primaryAxis,
+            secondaryAxes,
+            type: "bar",
+            defaultColors: ["#54f567"],
+            tooltip: { show: false },
+          }}
+        />
+      </div>
+
+      <Form metrics={datas} />
     </div>
   );
 };

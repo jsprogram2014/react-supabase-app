@@ -29,6 +29,7 @@ const DbCalling = () => {
           Name : {datas[0].name}, Value : {datas[0].value}
         </p>
       )}
+      <></>
     </div>
   );
 };
