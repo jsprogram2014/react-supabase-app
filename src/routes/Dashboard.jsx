@@ -1,7 +1,7 @@
 import React from "react";
 import supabaseClient from "../supabase-client";
 import { Chart } from "react-charts";
-import Form from "./Form";
+import Form from "../components/Form";
 
 const fetchMetric = async () => {
   try {
@@ -43,7 +43,7 @@ const Dashboard = () => {
 
     //clean up the side effect since it can be still there even when the component is unmounted
     return () => {
-      supabaseClient.removeChannel("deal-changes");
+      supabaseClient.removeChannel(channel);
     };
   }, []);
 

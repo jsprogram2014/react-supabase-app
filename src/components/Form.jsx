@@ -1,15 +1,23 @@
 import { useActionState } from "react";
 import supabaseClient from "../supabase-client";
 function Form({ metrics }) {
-  const [error, submitAction, isPending] = useActionState(
+  const [errors, submitAction, isPending] = useActionState(
     async (prevState, formData) => {
       const newDeal = {
         name: formData.get("name"),
         value: formData.get("value"),
       };
-      await supabaseClient
-        .from("sales_deals")
-        .insert({ value: Number(newDeal.value), name: newDeal.name });
+      try {
+        const { error } = await supabaseClient
+          .from("sales_deals")
+          .insert({ value: Number(newDeal.value), name: newDeal.name });
+        if (error) {
+          throw error;
+        }
+        return error;
+      } catch (error) {
+        console.log(error.message);
+      }
     },
     null,
   );
@@ -56,7 +64,8 @@ function Form({ metrics }) {
             name="value"
             defaultValue={0}
             className="amount-input"
-            min="0"
+            // min=
+            // "0"
             step="10"
             aria-required="true"
             // aria-invalid=
@@ -70,7 +79,7 @@ function Form({ metrics }) {
           disabled={isPending}
           // aria-busy=
         >
-          Add Deal
+          {isPending ? "Adding Deal" : "Add a Deal"}{" "}
           {/*'Adding deal' when pending*/}
         </button>
       </form>
